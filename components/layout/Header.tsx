@@ -1,120 +1,148 @@
 "use client";
 
-import Link from "next/link";
-import { Search, X, Menu, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Search, X, Menu, ChevronRight, ChevronLeft } from "lucide-react";
+import { ButtonHTMLAttributes, useEffect, useState } from "react";
 import clsx from "clsx";
 
 import Logo from "@/public/icons/Logo";
+import {
+  NavLeft,
+  navLefts,
+  navRights,
+  residentialMenu,
+  residentialRentMenu,
+  searchMenu,
+} from "@/data/header";
+import { INavData } from "@/interfaces";
+import Image from "next/image";
 
-interface INavData {
-  title: string;
-  href: string;
-}
-
-interface INavRenderProps {
-  className: string;
-  data: INavData[];
-}
-
-interface ILinkItem {
-  className?: string;
-  href: string;
-  children: React.ReactNode;
-}
-
-const navLefts: INavData[] = [
-  { title: "Residential", href: "/residential" },
-  { title: "Commercial & Retail", href: "/commercial-retail" },
-  { title: "Meriton Suites", href: "/meriton-suites" },
-  { title: "Parking", href: "/parking" },
-  { title: "Energy", href: "/energy" },
-];
-
-const navRights: INavData[] = [
-  { title: "Services", href: "/services" },
-  { title: "About", href: "/about" },
-  { title: "News", href: "/news" },
-  { title: "Contact", href: "/contact" },
-];
-
-const menuData = [
-  {
-    title: "Residential",
-    items: [
-      { title: "Properties to Buy", href: "/residential/properties-to-buy" },
-      {
-        title: "Home-loan Calculator",
-        href: "/residential/home-loan-calculator",
-      },
-      { title: "Properties to Rent", href: "/residential/properties-to-rent" },
-      { title: "Built for Rent", href: "/residential/built-for-rent" },
-      {
-        title: "Property Management",
-        href: "/residential/property-management",
-      },
-    ],
-  },
-  {
-    title: "Commercial & Retail",
-    items: [
-      {
-        title: "Properties to Buy",
-        href: "/commercial-retail/properties-to-buy",
-      },
-      {
-        title: "Properties to Rent",
-        href: "/commercial-retail/properties-to-rent",
-      },
-      {
-        title: "Retail Precinct Directory",
-        href: "/commercial-retail/retail-precinct-directory",
-      },
-    ],
-  },
-  {
-    title: "Services",
-    items: [
-      { title: "Meriton 360", href: "/services/meriton-360" },
-      { title: "Property Finance", href: "/services/property-finance" },
-      { title: "Sell For Meriton", href: "/services/sell-for-meriton" },
-      { title: "Property Management", href: "/services/property-management" },
-      { title: "Property Resales", href: "/services/property-resales" },
-    ],
-  },
-  {
-    title: "About",
-    items: [
-      { title: "About Meriton", href: "/about/about-meriton" },
-      { title: "Meriton News", href: "/about/meriton-news" },
-      { title: "Careers at Meriton", href: "/about/careers-at-meriton" },
-    ],
-  },
-];
-
-function LinkItem({ children, className, href }: ILinkItem) {
-  console.log("🚀 ~ LinkItem ~ className:", className);
+function MenuButton({
+  children,
+  className,
+  ...props
+}: ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <Link
-      href={href}
+    <button
+      {...props}
       className={clsx(
         "relative before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-left before:scale-x-0 before:bg-[#bc955c] before:transition-transform before:duration-500 hover:before:scale-x-100",
         className
       )}
     >
       {children}
-    </Link>
+    </button>
+  );
+}
+
+function MenuBlock({ title, data }: { title: string; data: INavData[] }) {
+  return (
+    <div>
+      <h3 className="text-secondary eyebrow pb-3 text-gold-700 md:pb-5 text-sm font-semibold">
+        {title}
+      </h3>
+      <ul>
+        {data.map((item) => (
+          <li
+            key={item.href}
+            className="body-text-small-strong mb-3 block w-fit py-0 md:mb-1 md:py-1.5 text-sm"
+          >
+            <MenuButton className="text-primary font-medium">
+              {item.title}
+            </MenuButton>
+            <p className="text-[12px] mt-3 text-gray-500">{item.subtitle}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function MenuResidential({ onBack }: { onBack: () => void }) {
+  const tabs = ["buy", "rent"];
+  const [tabActive, setTabActive] = useState(tabs[0]);
+
+  return (
+    <div className="bg-white w-full">
+      <MenuButton
+        className={clsx(
+          "py-5 px-3 w-full border-b-[1px] border-secondary flex gap-2 text-primary",
+          "lg:hidden"
+        )}
+        onClick={onBack}
+      >
+        <ChevronLeft size={20} />
+        Residential
+      </MenuButton>
+
+      <div className="w-full border-b-[1px] border-secondary flex gap-3 px-3">
+        {tabs.map((tab) => (
+          <MenuButton
+            className={clsx("py-5 capitalize relative text-primary", {
+              "after:absolute after:content-[''] after:h-[2px] after:w-full after:bg-amber-700 after:bottom-0 after:left-0":
+                tabActive === tab,
+            })}
+            onClick={() => setTabActive(tab)}
+          >
+            {tab}
+          </MenuButton>
+        ))}
+      </div>
+
+      {tabActive === tabs[0] ? (
+        <div className="grid grid-cols-12 gap-[50px]">
+          <div className="col-span-9">
+            <div className="grid grid-cols-12 px-3 w-full">
+              {residentialMenu.map((menuItem) => (
+                <div
+                  key={menuItem.href}
+                  className="col-span-12 lg:col-span-6 text-primary border-b-[1px] border-secondary py-5"
+                >
+                  <MenuBlock
+                    title={menuItem.title}
+                    data={menuItem?.children ?? []}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="col-span-3 py-5">
+            <div className="w-[402px] h-[288px] aspect-square relative">
+              <Image
+                // className="lg:hidden"
+                src={"/images/I10_South_Living_Lv87_3B_Dusk.webp"}
+                alt="I10_South_Living_Lv87_3B_Dusk.webp"
+                fill
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-12 px-3">
+          {residentialRentMenu.map((menuItem) => (
+            <div
+              key={menuItem.href}
+              className="col-span-12 lg:col-span-3 text-primary border-b-[1px] border-secondary py-5"
+            >
+              <MenuBlock
+                title={menuItem.title}
+                data={menuItem?.children ?? []}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
 export default function Header() {
   const [isOpenSearch, setIsOpenSearch] = useState(false);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [menuActive, setMenuActive] = useState<NavLeft | null>(null);
 
   useEffect(() => {
     function handleResize() {
       if (isOpenSearch || isOpenMenu) {
-        console.log("Come");
         setIsOpenMenu(false);
         setIsOpenSearch(false);
       }
@@ -144,7 +172,7 @@ export default function Header() {
       <div
         className={clsx(
           "fixed left-0 top-0 h-screen w-screen bg-overlay backdrop-blur-lg transition-all duration-400 z-[10]",
-          isOpenSearch || isOpenMenu
+          isOpenSearch || isOpenMenu || menuActive
             ? "visible opacity-100"
             : "invisible opacity-0"
         )}
@@ -164,22 +192,26 @@ export default function Header() {
         >
           <ul
             className={clsx(
-              "flex-col gap-3 text-primary flex",
+              "flex-col text-primary flex",
               "lg:flex-row lg:flex-1 lg:gap-6 lg:px-8 lg:items-center lg:h-full"
             )}
           >
             {navLefts.map((link) => (
               <li key={link.href}>
-                <LinkItem
-                  href={link.href}
+                <MenuButton
                   className={clsx(
-                    "py-3 px-3 w-full border-b-[1px] border-primary flex justify-between",
+                    "py-5 px-3 w-full border-b-[1px] border-primary flex justify-between",
                     "lg:border-none"
                   )}
+                  onClick={() =>
+                    setMenuActive((prev) =>
+                      prev === link.href ? null : (link.href as NavLeft)
+                    )
+                  }
                 >
                   {link.title}
-                  <ChevronRight className="lg:hidden" />
-                </LinkItem>
+                  <ChevronRight className="lg:hidden" size={20} />
+                </MenuButton>
               </li>
             ))}
           </ul>
@@ -191,19 +223,33 @@ export default function Header() {
           >
             {navRights.map((link) => (
               <li key={link.href}>
-                <LinkItem
-                  href={link.href}
+                <MenuButton
                   className={clsx(
-                    "py-3 px-3 w-full border-b-[1px] border-gray-400 flex justify-between",
+                    "py-5 px-3 w-full border-b-[1px] border-gray-400 flex justify-between",
                     "lg:border-none"
                   )}
                 >
                   {link.title}
-                  <ChevronRight className="lg:hidden" />
-                </LinkItem>
+                  <ChevronRight className="lg:hidden" size={20} />
+                </MenuButton>
               </li>
             ))}
           </ul>
+        </div>
+        <div
+          className={clsx(
+            "absolute top-full w-full bg-white duration-300 z-[100]",
+            "lg:left-0 lg:right-0 lg:flex lg:overflow-y-hidden lg:container lg:mx-auto",
+            menuActive === NavLeft.RESIDENTIAL
+              ? "visible left-0 lg:max-h-[100vh]"
+              : "invisible left-full lg:max-h-0"
+          )}
+        >
+          <MenuResidential
+            onBack={() => {
+              setMenuActive(null);
+            }}
+          />
         </div>
         <div className="flex h-full">
           <button
@@ -259,29 +305,12 @@ export default function Header() {
             Hit enter to search or ESC to close
           </p>
           <div className="grid grid-cols-12 gap-5">
-            {menuData.map((menu) => (
+            {searchMenu.map((menu) => (
               <div
                 key={menu.title}
                 className="col-span-12 lg:col-span-3 lg:border-none border-b-[1px] border-secondary"
               >
-                <h3 className="text-secondary eyebrow pb-3 text-gold-700 md:pb-5 text-sm font-semibold">
-                  {menu.title}
-                </h3>
-                <ul>
-                  {menu.items.map((item) => (
-                    <li
-                      key={item.href}
-                      className="body-text-small-strong mb-3 block w-fit py-0 md:mb-1 md:py-1.5 text-sm"
-                    >
-                      <LinkItem
-                        href={item.href}
-                        className="text-primary font-medium"
-                      >
-                        {item.title}
-                      </LinkItem>
-                    </li>
-                  ))}
-                </ul>
+                <MenuBlock title={menu.title} data={menu.children} />
               </div>
             ))}
           </div>
