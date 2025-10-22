@@ -2,6 +2,7 @@ export interface INavData {
   title: string;
   href: string;
   subtitle?: string;
+  image?: string;
   children?: INavData[];
 }
 

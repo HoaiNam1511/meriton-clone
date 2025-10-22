@@ -49,7 +49,9 @@ function MenuBlock({ title, data }: { title: string; data: INavData[] }) {
             <MenuButton className="text-primary font-medium">
               {item.title}
             </MenuButton>
-            <p className="text-[12px] mt-3 text-gray-500">{item.subtitle}</p>
+            <p className="text-[12px] lg:text-[16px] mt-3 text-gray-500">
+              {item.subtitle}
+            </p>
           </li>
         ))}
       </ul>
@@ -62,7 +64,7 @@ function MenuResidential({ onBack }: { onBack: () => void }) {
   const [tabActive, setTabActive] = useState(tabs[0]);
 
   return (
-    <div className="bg-white w-full">
+    <div className="bg-white w-full container2124">
       <MenuButton
         className={clsx(
           "py-5 px-3 w-full border-b-[1px] border-secondary flex gap-2 text-primary",
@@ -74,7 +76,12 @@ function MenuResidential({ onBack }: { onBack: () => void }) {
         Residential
       </MenuButton>
 
-      <div className="w-full border-b-[1px] border-secondary flex gap-3 px-3">
+      <div
+        className={clsx(
+          "w-full border-secondary flex gap-3 px-3 border-b-[1px]",
+          "lg:mb-10"
+        )}
+      >
         {tabs.map((tab) => (
           <MenuButton
             className={clsx("py-5 capitalize relative text-primary", {
@@ -82,6 +89,7 @@ function MenuResidential({ onBack }: { onBack: () => void }) {
                 tabActive === tab,
             })}
             onClick={() => setTabActive(tab)}
+            key={tab}
           >
             {tab}
           </MenuButton>
@@ -90,12 +98,15 @@ function MenuResidential({ onBack }: { onBack: () => void }) {
 
       {tabActive === tabs[0] ? (
         <div className="grid grid-cols-12 gap-[50px]">
-          <div className="col-span-9">
-            <div className="grid grid-cols-12 px-3 w-full">
+          <div className="col-span-12 lg:col-span-8">
+            <div className="grid grid-cols-12 px-3 gap-x-10 w-full">
               {residentialMenu.map((menuItem) => (
                 <div
                   key={menuItem.href}
-                  className="col-span-12 lg:col-span-6 text-primary border-b-[1px] border-secondary py-5"
+                  className={clsx(
+                    "col-span-12 text-primary border-b-[1px] border-secondary py-5",
+                    "lg:col-span-6 not-first:border-none"
+                  )}
                 >
                   <MenuBlock
                     title={menuItem.title}
@@ -105,23 +116,27 @@ function MenuResidential({ onBack }: { onBack: () => void }) {
               ))}
             </div>
           </div>
-          <div className="col-span-3 py-5">
-            <div className="w-[402px] h-[288px] aspect-square relative">
+          <div className="col-span-4 py-5 hidden lg:flex flex-col items-start">
+            <div className="w-[402px] h-[288px] aspect-square relative ">
               <Image
-                // className="lg:hidden"
-                src={"/images/I10_South_Living_Lv87_3B_Dusk.webp"}
+                src="/images/I10_South_Living_Lv87_3B_Dusk.webp"
                 alt="I10_South_Living_Lv87_3B_Dusk.webp"
                 fill
               />
             </div>
+
+            <MenuButton className="text-primary mt-3">Cypress Palms</MenuButton>
+            <p className="text-sm text-gray-500">
+              The highest residences on the Gold Coast
+            </p>
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-12 px-3">
+        <div className="grid grid-cols-12 px-3 lg:mb-10">
           {residentialRentMenu.map((menuItem) => (
             <div
               key={menuItem.href}
-              className="col-span-12 lg:col-span-3 text-primary border-b-[1px] border-secondary py-5"
+              className="col-span-12 lg:col-span-3 text-primary border-b-[1px] lg:border-none border-secondary py-5 lg:not-first:hidden"
             >
               <MenuBlock
                 title={menuItem.title}
@@ -129,6 +144,27 @@ function MenuResidential({ onBack }: { onBack: () => void }) {
               />
             </div>
           ))}
+          <div className="col-span-9 flex gap-4">
+            {residentialRentMenu?.[1]?.children?.map((menuItem) => (
+              <div>
+                <div className="relative w-full h-[15rem] overflow-hidden">
+                  <Image
+                    src={menuItem?.image ?? ""}
+                    fill
+                    alt={menuItem?.image ?? ""}
+                    className="object-cover hover:scale-110  duration-300"
+                  />
+                </div>
+
+                <MenuButton className="text-primary font-medium">
+                  {menuItem.title}
+                </MenuButton>
+                <p className="text-[12px] lg:text-[16px] mt-3 text-gray-500">
+                  {menuItem.subtitle}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
@@ -238,10 +274,10 @@ export default function Header() {
         </div>
         <div
           className={clsx(
-            "absolute top-full w-full bg-white duration-300 z-[100]",
-            "lg:left-0 lg:right-0 lg:flex lg:overflow-y-hidden lg:container lg:mx-auto",
+            "absolute top-full w-full bg-white duration-400 z-[100] delay-[0ms]",
+            "lg:left-0 lg:right-0 lg:flex lg:overflow-y-hidden lg:container lg:mx-auto lg:justify-center",
             menuActive === NavLeft.RESIDENTIAL
-              ? "visible left-0 lg:max-h-[100vh]"
+              ? "visible left-0 lg:max-h-[900px]"
               : "invisible left-full lg:max-h-0"
           )}
         >
@@ -264,6 +300,7 @@ export default function Header() {
             className="p-5 h-full flex items-center justify-center lg:hidden"
             onClick={() => {
               setIsOpenMenu((prev) => !prev);
+              setMenuActive(null);
             }}
           >
             <Menu className="text-primary text-sm w-5 h-5 lg:w-6 lg:h-6" />

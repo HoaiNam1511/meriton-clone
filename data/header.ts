@@ -128,7 +128,7 @@ export const residentialMenu: INavData[] = [
   },
 ];
 
-export const residentialRentMenu = [
+export const residentialRentMenu: INavData[] = [
   {
     title: "Available to Rent",
     href: "available-to-rent",
@@ -145,6 +145,8 @@ export const residentialRentMenu = [
     children: [
       {
         title: "Built for Rent",
+        image:
+          "https://cms.meriton.com.au/wp-content/uploads/2024/07/26de4ac354774253c6b9010319d1729c.png",
         href: "/residential/rent/built-for-rent",
         subtitle:
           "Meriton Built For Rent is a highly-refined operator and has been in the build-to-rent space for more than two decades.",
@@ -152,6 +154,8 @@ export const residentialRentMenu = [
       {
         title: "Meriton Property Management",
         href: "/residential/rent/property-management",
+        image:
+          "https://cms.meriton.com.au/wp-content/uploads/2024/09/Ocean-5.jpg",
         subtitle:
           "Meriton Property Management have premium properties for lease across Sydney, Brisbane and the Gold Coast.",
       },
