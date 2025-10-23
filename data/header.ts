@@ -128,7 +128,7 @@ export const residentialMenu: INavData[] = [
   },
 ];
 
-export const residentialRentMenu = [
+export const residentialRentMenu: INavData[] = [
   {
     title: "Available to Rent",
     href: "available-to-rent",
@@ -145,6 +145,8 @@ export const residentialRentMenu = [
     children: [
       {
         title: "Built for Rent",
+        image:
+          "https://cms.meriton.com.au/wp-content/uploads/2024/07/26de4ac354774253c6b9010319d1729c.png",
         href: "/residential/rent/built-for-rent",
         subtitle:
           "Meriton Built For Rent is a highly-refined operator and has been in the build-to-rent space for more than two decades.",
@@ -152,9 +154,48 @@ export const residentialRentMenu = [
       {
         title: "Meriton Property Management",
         href: "/residential/rent/property-management",
+        image:
+          "https://cms.meriton.com.au/wp-content/uploads/2024/09/Ocean-5.jpg",
         subtitle:
           "Meriton Property Management have premium properties for lease across Sydney, Brisbane and the Gold Coast.",
       },
+    ],
+  },
+];
+
+export const commercialRetailMenu = [
+  {
+    title: "Available to Buy",
+    href: "available-to-buy",
+    children: [
+      { title: "Retail & Office for sale", href: "/retail-office-for-sale" },
+    ],
+  },
+  {
+    title: "Available to Lease",
+    href: "available-to-lease",
+    children: [
+      { title: "Retail & Office for lease", href: "/retail-office-for-lease" },
+    ],
+  },
+  {
+    title: "More",
+    href: "more",
+    children: [
+      {
+        title: "Retail Precinct Directory",
+        href: "/retail-precinct-directory",
+      },
+      { title: "Sydney CBD George Street", href: "/sydney-cbd-george-street" },
+      { title: "Pagewood", href: "/pagewood" },
+      { title: "Waterloo", href: "/waterloo" },
+      { title: "Mascot Central", href: "/mascot-central" },
+      { title: "Bondi Junction", href: "/bondi-junction" },
+      { title: "Parramatta Church Street", href: "/parramatta-church-street" },
+      { title: "Dee Why", href: "/dee-why" },
+      { title: "Liverpool", href: "/liverpool" },
+      { title: "Surfers Paradise", href: "/surfers-paradise" },
+      { title: "Sundale Southport", href: "/sundale-southport" },
     ],
   },
 ];
