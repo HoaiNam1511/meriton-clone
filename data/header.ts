@@ -162,3 +162,40 @@ export const residentialRentMenu: INavData[] = [
     ],
   },
 ];
+
+export const commercialRetailMenu = [
+  {
+    title: "Available to Buy",
+    href: "available-to-buy",
+    children: [
+      { title: "Retail & Office for sale", href: "/retail-office-for-sale" },
+    ],
+  },
+  {
+    title: "Available to Lease",
+    href: "available-to-lease",
+    children: [
+      { title: "Retail & Office for lease", href: "/retail-office-for-lease" },
+    ],
+  },
+  {
+    title: "More",
+    href: "more",
+    children: [
+      {
+        title: "Retail Precinct Directory",
+        href: "/retail-precinct-directory",
+      },
+      { title: "Sydney CBD George Street", href: "/sydney-cbd-george-street" },
+      { title: "Pagewood", href: "/pagewood" },
+      { title: "Waterloo", href: "/waterloo" },
+      { title: "Mascot Central", href: "/mascot-central" },
+      { title: "Bondi Junction", href: "/bondi-junction" },
+      { title: "Parramatta Church Street", href: "/parramatta-church-street" },
+      { title: "Dee Why", href: "/dee-why" },
+      { title: "Liverpool", href: "/liverpool" },
+      { title: "Surfers Paradise", href: "/surfers-paradise" },
+      { title: "Sundale Southport", href: "/sundale-southport" },
+    ],
+  },
+];
